@@ -1,0 +1,31 @@
+options:
+  languages: [ "java" ]
+  resolverType: "coursier"
+  resolvers:
+    - id: "mavencentral"
+      type: "default"
+      url: https://repo.maven.apache.org/maven2/
+  strictVisibility: true
+  transitivity: exports
+  
+dependencies:
+  io.grpc:
+    grpc:
+      modules: ["netty", "protobuf", "stub", "core", "protobuf-lite"]
+      version: "1.14.0"
+      lang: java
+
+  com.google.protobuf:
+    protobuf:
+      modules: ["java", "java-util"]
+      version: "3.6.1"
+      lang: java
+
+  com.google.guava:
+    guava:
+      version: "26.0-jre"
+      lang: java
+  
+  com.google.code.findbugs:
+    jsr305:
+      lang: java
