@@ -15,20 +15,26 @@ import org.kouky.helloworld.grpc.HelloRequest;
 public class HelloWorldServer {
   private static final Logger logger = Logger.getLogger(HelloWorldServer.class.getName());
 
-  private Server server;
+  private final int port;
+  private final Server server;
 
-  private void start() throws IOException {
-    /* The port on which the server should run */
-    int port = 50051;
-    server = ServerBuilder.forPort(port)
-    .addService(new GreeterImpl())
-    .build()
-    .start();
+  public HelloWorldServer(int port) throws IOException {
+    this(ServerBuilder.forPort(port), port);
+  }
+
+  public HelloWorldServer(ServerBuilder<?> serverBuilder, int port) {
+    this.port = port;
+    server = serverBuilder.addService(new HelloWorldService()).build();
+  }
+
+  /** Start serving requests. */
+  public void start() throws IOException {
+    server.start();
     logger.info("Server started, listening on " + port);
     Runtime.getRuntime().addShutdownHook(new Thread() {
       @Override
       public void run() {
-        // Use stderr here since the logger may have been reset by its JVM shutdown hook.
+        // Use stderr here since the logger may has been reset by its JVM shutdown hook.
         System.err.println("*** shutting down gRPC server since JVM is shutting down");
         HelloWorldServer.this.stop();
         System.err.println("*** server shut down");
@@ -36,7 +42,8 @@ public class HelloWorldServer {
     });
   }
 
-  private void stop() {
+  /** Stop serving requests and shutdown resources. */
+  public void stop() {
     if (server != null) {
       server.shutdown();
     }
@@ -54,13 +61,13 @@ public class HelloWorldServer {
   /**
    * Main launches the server from the command line.
    */
-  public static void main(String[] args) throws IOException, InterruptedException {
-    final HelloWorldServer server = new HelloWorldServer();
+  public static void main(String[] args) throws Exception {
+    HelloWorldServer server = new HelloWorldServer(8980);
     server.start();
     server.blockUntilShutdown();
   }
 
-  static class GreeterImpl extends GreeterGrpc.GreeterImplBase {
+  private static class HelloWorldService extends GreeterGrpc.GreeterImplBase {
 
     @Override
     public void sayHello(HelloRequest req, StreamObserver<HelloReply> responseObserver) {
