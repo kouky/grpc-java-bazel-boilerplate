@@ -1,7 +1,17 @@
 java_binary(
+    name = "helloworld_client_simulator",
+    main_class = "org.kouky.helloworld.client.HelloWorldClient",
+    visibility = [
+        "//visibility:public",
+    ],
+    runtime_deps = [
+        ":helloworld_client",
+    ],
+)
+
+java_library(
     name = "helloworld_client",
     srcs = glob(["*.java"]),
-    main_class = "org.kouky.helloworld.client.HelloWorldClient",
     visibility = [
         "//visibility:public",
     ],
