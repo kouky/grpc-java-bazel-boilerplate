@@ -1,6 +1,6 @@
-# gRPC Java Bazel Boilerplat
+# gRPC Java Bazel Boilerplate
 
-Boilerplate for commencing a new Java based [gRPC](https://grpc.io) microservices project using the [Bazel](https://bazel.build) build system.
+Boilerplate for commencing a new Java based [gRPC](https://grpc.io) microservice project using the [Bazel](https://bazel.build) build system.
 
 ## Managing Third Party Dependencies
 

@@ -1,10 +1,17 @@
 java_binary(
     name = "helloworld_server",
-    srcs = glob(["*.java"]),
     main_class = "org.kouky.helloworld.server.HelloWorldServer",
     visibility = [
         "//visibility:public",
     ],
+    runtime_deps = [
+        ":helloworld_serve_lib",
+    ],
+)
+
+java_library(
+    name = "helloworld_serve_lib",
+    srcs = glob(["*.java"]),
     deps = [
         "//3rdparty/jvm/io/grpc:grpc_stub",
         "//3rdparty/jvm/io/grpc:grpc_netty",
